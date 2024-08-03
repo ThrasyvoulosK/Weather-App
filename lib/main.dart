@@ -51,7 +51,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
    
 
-  void _incrementCounter() {
+  void _addToFavourites() {
     setState(() {
       // This call to setState tells the Flutter framework that something has
       // changed in this State, which causes it to rerun the build method below
@@ -107,22 +107,23 @@ class _MyHomePageState extends State<MyHomePage> {
           // TRY THIS: Invoke "debug painting" (choose the "Toggle Debug Paint"
           // action in the IDE, or press "p" in the console), to see the
           // wireframe for each widget.
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-            Text(currentCity),
-            Text(currentCelsiusTemperature),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Icon(currentIcon),
-                Text(currentCondition),
+                Icon(Icons.search,size:48),
+                Text("Search"),
+                Icon(Icons.favorite,size: 48,),
+              ],
+            ),
+            Text(currentCity,style: TextStyle(fontSize: 48)),
+            Text(currentCelsiusTemperature,style: TextStyle(fontSize: 64)),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Icon(currentIcon,size: 48,),
+                Text(currentCondition,style: TextStyle(fontSize: 32)),
               ],
             )
             
@@ -131,8 +132,8 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
+        onPressed: _addToFavourites,
+        tooltip: 'Add To Favourites',
         child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );

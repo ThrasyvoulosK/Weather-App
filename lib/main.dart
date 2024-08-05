@@ -95,14 +95,6 @@ Future<void> _loadData() async {
   });
 }
 
-IconData getIconData(Map<String, dynamic> icon) {
-  return IconData(
-    icon['icon'],
-    fontFamily: 'MaterialIcons',
-  );
-}
-
-
   @override
   Widget build(BuildContext context) {
 

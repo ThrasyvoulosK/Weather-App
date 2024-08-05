@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:core';
 import 'dart:convert';
 import 'package:flutter/services.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 import 'cities.dart';
 
@@ -94,7 +95,12 @@ Future<void> _loadData() async {
   });
 }
 
-
+IconData getIconData(Map<String, dynamic> icon) {
+  return IconData(
+    icon['icon'],
+    fontFamily: 'MaterialIcons',
+  );
+}
 
 
   @override
@@ -102,7 +108,7 @@ Future<void> _loadData() async {
 
     var currentCity="Athens";
     var currentTemperature=36;
-    var currentCelsiusTemperature=currentTemperature.toString()+" C";
+    //var currentCelsiusTemperature=currentTemperature.toString()+" C";
     var currentIcon=Icons.sunny;
     var currentCondition="Sunny";
     
@@ -110,6 +116,18 @@ Future<void> _loadData() async {
     for (var data in _cityList) {
       print("CityName: ${data.city}, Condition: ${data.condition}, Icon: ${data.icon}, Temperature ${data.temperature}");
     }
+    //print(_cityList[0].city);
+
+    var chosenCity=_cityList[11];
+
+    currentCity=chosenCity.city!;
+    
+    currentTemperature=chosenCity.temperature!;
+    var currentCelsiusTemperature=currentTemperature.toString()+" C";
+    var ic=MdiIcons.fromString(chosenCity.icon!);
+    currentIcon=ic!;
+    currentCondition=chosenCity.condition!;
+
     
 
     // This method is rerun every time setState is called, for instance as done

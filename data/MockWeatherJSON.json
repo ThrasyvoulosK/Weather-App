@@ -10,7 +10,7 @@
     "city": "Los Angeles",
     "temperature": 25,
     "condition": "Sunny",
-    "icon": "sun"
+    "icon": "white-balance-sunny"
   },
   {
     "city": "New York",
@@ -22,7 +22,7 @@
     "city": "Chicago",
     "temperature": 10,
     "condition": "Rainy",
-    "icon": "rain"
+    "icon": "weather-rainy"
   },
   {
     "city": "London",
@@ -34,13 +34,13 @@
     "city": "Tokyo",
     "temperature": 24,
     "condition": "Rain",
-    "icon": "rain"
+    "icon": "weather-rainy"
   },
   {
     "city": "Sydney",
     "temperature": 26,
     "condition": "Mostly Sunny",
-    "icon": "sun"
+    "icon": "white-balance-sunny"
   },
   {
     "city": "Paris",
@@ -52,25 +52,25 @@
     "city": "Cairo",
     "temperature": 30,
     "condition": "Hot",
-    "icon": "sun"
+    "icon": "white-balance-sunny"
   },
   {
     "city": "Rio de Janeiro",
     "temperature": 27,
     "condition": "Humid",
-    "icon": "sun"
+    "icon": "white-balance-sunny"
   },
   {
     "city": "Moscow",
     "temperature": 10,
     "condition": "Foggy",
-    "icon": "fog"
+    "icon": "weather-fog"
   },
   {
     "city": "Beijing",
     "temperature": 28,
     "condition": "Hazy",
-    "icon": "haze"
+    "icon": "weather-hazy"
   },
   {
     "city": "Nairobi",

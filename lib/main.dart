@@ -115,7 +115,7 @@ Future<void> _loadData() async {
     currentCity=chosenCity.city!;
     
     currentTemperature=chosenCity.temperature!;
-    var currentCelsiusTemperature=currentTemperature.toString()+" C";
+    var currentCelsiusTemperature=currentTemperature.toString()+" °C";
     var ic=MdiIcons.fromString(chosenCity.icon!);
     currentIcon=ic!;
     currentCondition=chosenCity.condition!;

@@ -49,7 +49,6 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
 
-
   void _addToFavourites() {
     setState(() {
       // This call to setState tells the Flutter framework that something has
@@ -65,62 +64,59 @@ class _MyHomePageState extends State<MyHomePage> {
   List<cities> _cityList = [];
 
   Future<List<cities>> readJson() async {
-    final String response = await rootBundle.loadString('data/MockWeatherJSON.json');
+    final String response =
+        await rootBundle.loadString('data/MockWeatherJSON.json');
     final data = await json.decode(response);
 
     final List<cities> dataList = (data["cities"] as List)
-      .map((item) => cities(
+        .map((item) => cities(
             city: item["city"],
             condition: item["condition"],
             temperature: item["temperature"],
-            icon: item["icon"]
-          ))
-      .toList();
+            icon: item["icon"]))
+        .toList();
 
     return dataList;
   }
 
 //initialise data when starting the program
   @override
-void initState() {
-  super.initState();
-  _loadData();
-}
+  void initState() {
+    super.initState();
+    _loadData();
+  }
 
 //load the list of cities and update the app's data
-Future<void> _loadData() async {
-  final dataList = await readJson();
-  setState(() {
-    _cityList = dataList;
-  });
-}
+  Future<void> _loadData() async {
+    final dataList = await readJson();
+    setState(() {
+      _cityList = dataList;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-
-    var currentCity="Athens";
-    var currentTemperature=36;
+    var currentCity = "Athens";
+    var currentTemperature = 36;
     //var currentCelsiusTemperature=currentTemperature.toString()+" C";
-    var currentIcon=Icons.sunny;
-    var currentCondition="Sunny";
-    
-    
+    var currentIcon = Icons.sunny;
+    var currentCondition = "Sunny";
+
     for (var data in _cityList) {
-      print("CityName: ${data.city}, Condition: ${data.condition}, Icon: ${data.icon}, Temperature ${data.temperature}");
+      print(
+          "CityName: ${data.city}, Condition: ${data.condition}, Icon: ${data.icon}, Temperature ${data.temperature}");
     }
     //print(_cityList[0].city);
 
-    var chosenCity=_cityList[11];
+    var chosenCity = _cityList[11];
 
-    currentCity=chosenCity.city!;
-    
-    currentTemperature=chosenCity.temperature!;
-    var currentCelsiusTemperature=currentTemperature.toString()+" °C";
-    var ic=MdiIcons.fromString(chosenCity.icon!);
-    currentIcon=ic!;
-    currentCondition=chosenCity.condition!;
+    currentCity = chosenCity.city!;
 
-    
+    currentTemperature = chosenCity.temperature!;
+    var currentCelsiusTemperature = currentTemperature.toString() + " °C";
+    var ic = MdiIcons.fromString(chosenCity.icon!);
+    currentIcon = ic!;
+    currentCondition = chosenCity.condition!;
 
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
@@ -129,104 +125,102 @@ Future<void> _loadData() async {
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
     return Scaffold(
-      appBar: AppBar(
-        // TRY THIS: Try changing the color here to a specific color (to
-        // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
-        // change color while the other colors stay the same.
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-        centerTitle: true,
-      ),
-      
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-
-        
-        
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          //
-          // TRY THIS: Invoke "debug painting" (choose the "Toggle Debug Paint"
-          // action in the IDE, or press "p" in the console), to see the
-          // wireframe for each widget.
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          
-          children: <Widget>[
-            
-            SearchAnchor(
-              builder: (BuildContext context, SearchController controller) {
-            return SearchBar(
-              controller: controller,
-              padding: const MaterialStatePropertyAll<EdgeInsets>(
-                  EdgeInsets.symmetric(horizontal: 16.0)),
-              onTap: () {
-                controller.openView();
-              },
-              onChanged: (_) {
-                controller.openView();
-              },
-              leading: const Icon(Icons.search),
-            );
-          }, suggestionsBuilder:
-                  (BuildContext context, SearchController controller) {
-            return List<ListTile>.generate(5, (int index) {
-              final String item = 'item $index';
-              return ListTile(
-                title: Text(item),
-                onTap: () {
-                  setState(() {
-                    controller.closeView(item);
-                  });
-                },
-              );
-            });
-          }),
-            Text(currentCity,style: TextStyle(fontSize: 48)),
-            Text(currentCelsiusTemperature,style: TextStyle(fontSize: 64)),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Icon(currentIcon,size: 48,),
-                Text(currentCondition,style: TextStyle(fontSize: 32)),
-              ],
-            )
-          ],
+        appBar: AppBar(
+          // TRY THIS: Try changing the color here to a specific color (to
+          // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
+          // change color while the other colors stay the same.
+          backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+          // Here we take the value from the MyHomePage object that was created by
+          // the App.build method, and use it to set our appbar title.
+          title: Text(widget.title),
+          centerTitle: true,
         ),
-      ),
-      floatingActionButton: Stack(
-        children: [
-          Positioned(
-            child: FloatingActionButton(
-              onPressed: null,
-              tooltip: 'View Favourites',
-              child: Icon(Icons.favorite),
-            ),
-            top: kToolbarHeight + 32.0,
-            right: 16.0,
+        body: Center(
+          // Center is a layout widget. It takes a single child and positions it
+          // in the middle of the parent.
+
+          child: Column(
+            // Column is also a layout widget. It takes a list of children and
+            // arranges them vertically. By default, it sizes itself to fit its
+            // children horizontally, and tries to be as tall as its parent.
+            //
+            // Column has various properties to control how it sizes itself and
+            // how it positions its children. Here we use mainAxisAlignment to
+            // center the children vertically; the main axis here is the vertical
+            // axis because Columns are vertical (the cross axis would be
+            // horizontal).
+            //
+            // TRY THIS: Invoke "debug painting" (choose the "Toggle Debug Paint"
+            // action in the IDE, or press "p" in the console), to see the
+            // wireframe for each widget.
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+
+            children: <Widget>[
+              SearchAnchor(
+                  builder: (BuildContext context, SearchController controller) {
+                return SearchBar(
+                  controller: controller,
+                  padding: const MaterialStatePropertyAll<EdgeInsets>(
+                      EdgeInsets.symmetric(horizontal: 16.0)),
+                  onTap: () {
+                    controller.openView();
+                  },
+                  onChanged: (_) {
+                    controller.openView();
+                  },
+                  leading: const Icon(Icons.search),
+                );
+              }, suggestionsBuilder:
+                      (BuildContext context, SearchController controller) {
+                return List<ListTile>.generate(5, (int index) {
+                  final String item = 'item $index';
+                  return ListTile(
+                    title: Text(item),
+                    onTap: () {
+                      setState(() {
+                        controller.closeView(item);
+                      });
+                    },
+                  );
+                });
+              }),
+              Text(currentCity, style: TextStyle(fontSize: 48)),
+              Text(currentCelsiusTemperature, style: TextStyle(fontSize: 64)),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Icon(
+                    currentIcon,
+                    size: 48,
+                  ),
+                  Text(currentCondition, style: TextStyle(fontSize: 32)),
+                ],
+              )
+            ],
           ),
-          Positioned(
-            child: FloatingActionButton(
-              onPressed: _addToFavourites,
-              tooltip: 'Add To Favourites',
-              child: const Icon(Icons.add),
+        ),
+        floatingActionButton: Stack(
+          children: [
+            Positioned(
+              child: FloatingActionButton(
+                onPressed: null,
+                tooltip: 'View Favourites',
+                child: Icon(Icons.favorite),
+              ),
+              top: kToolbarHeight + 32.0,
+              right: 16.0,
             ),
-            bottom: 32.0,
-            right: 16.0,
-          ),
-        ],
-      )
-    );
+            Positioned(
+              child: FloatingActionButton(
+                onPressed: _addToFavourites,
+                tooltip: 'Add To Favourites',
+                child: const Icon(Icons.add),
+              ),
+              bottom: 32.0,
+              right: 16.0,
+            ),
+          ],
+        ));
   }
 }
 

@@ -139,9 +139,13 @@ Future<void> _loadData() async {
         title: Text(widget.title),
         centerTitle: true,
       ),
+      
       body: Center(
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.
+
+        
+        
         child: Column(
           // Column is also a layout widget. It takes a list of children and
           // arranges them vertically. By default, it sizes itself to fit its
@@ -157,15 +161,37 @@ Future<void> _loadData() async {
           // action in the IDE, or press "p" in the console), to see the
           // wireframe for each widget.
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          
           children: <Widget>[
-            const Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Icon(Icons.search,size:48),
-                Text("Search"),
-                Icon(Icons.favorite,size: 48,),
-              ],
-            ),
+            
+            SearchAnchor(
+              builder: (BuildContext context, SearchController controller) {
+            return SearchBar(
+              controller: controller,
+              padding: const MaterialStatePropertyAll<EdgeInsets>(
+                  EdgeInsets.symmetric(horizontal: 16.0)),
+              onTap: () {
+                controller.openView();
+              },
+              onChanged: (_) {
+                controller.openView();
+              },
+              leading: const Icon(Icons.search),
+            );
+          }, suggestionsBuilder:
+                  (BuildContext context, SearchController controller) {
+            return List<ListTile>.generate(5, (int index) {
+              final String item = 'item $index';
+              return ListTile(
+                title: Text(item),
+                onTap: () {
+                  setState(() {
+                    controller.closeView(item);
+                  });
+                },
+              );
+            });
+          }),
             Text(currentCity,style: TextStyle(fontSize: 48)),
             Text(currentCelsiusTemperature,style: TextStyle(fontSize: 64)),
             Row(
@@ -178,11 +204,28 @@ Future<void> _loadData() async {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _addToFavourites,
-        tooltip: 'Add To Favourites',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      floatingActionButton: Stack(
+        children: [
+          Positioned(
+            child: FloatingActionButton(
+              onPressed: null,
+              tooltip: 'View Favourites',
+              child: Icon(Icons.favorite),
+            ),
+            top: kToolbarHeight + 32.0,
+            right: 16.0,
+          ),
+          Positioned(
+            child: FloatingActionButton(
+              onPressed: _addToFavourites,
+              tooltip: 'Add To Favourites',
+              child: const Icon(Icons.add),
+            ),
+            bottom: 32.0,
+            right: 16.0,
+          ),
+        ],
+      )
     );
   }
 }

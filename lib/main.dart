@@ -1,12 +1,11 @@
-//import 'dart:nativewrappers/_internal/vm/lib/core_patch.dart';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:core';
+import 'dart:convert';
+import 'package:flutter/services.dart';
 
-import 'package:flutter/widgets.dart';
+import 'cities.dart';
 
-void main() {
+void main() async {
   runApp(const MyWeatherApp());
 }
 
@@ -49,7 +48,6 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
 
-   
 
   void _addToFavourites() {
     setState(() {
@@ -62,6 +60,41 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  //keep data from JSON file stored locally into a list of classes
+  List<cities> _cityList = [];
+
+  Future<List<cities>> readJson() async {
+    final String response = await rootBundle.loadString('data/MockWeatherJSON.json');
+    final data = await json.decode(response);
+
+    final List<cities> dataList = (data["cities"] as List)
+      .map((item) => cities(
+            city: item["city"],
+            condition: item["condition"],
+            temperature: item["temperature"],
+            icon: item["icon"]
+          ))
+      .toList();
+
+    return dataList;
+  }
+
+//initialise data when starting the program
+  @override
+void initState() {
+  super.initState();
+  _loadData();
+}
+
+//load the list of cities and update the app's data
+Future<void> _loadData() async {
+  final dataList = await readJson();
+  setState(() {
+    _cityList = dataList;
+  });
+}
+
+
 
 
   @override
@@ -72,6 +105,12 @@ class _MyHomePageState extends State<MyHomePage> {
     var currentCelsiusTemperature=currentTemperature.toString()+" C";
     var currentIcon=Icons.sunny;
     var currentCondition="Sunny";
+    
+    
+    for (var data in _cityList) {
+      print("CityName: ${data.city}, Condition: ${data.condition}, Icon: ${data.icon}, Temperature ${data.temperature}");
+    }
+    
 
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
@@ -109,7 +148,7 @@ class _MyHomePageState extends State<MyHomePage> {
           // wireframe for each widget.
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
-            Row(
+            const Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Icon(Icons.search,size:48),
@@ -126,9 +165,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 Text(currentCondition,style: TextStyle(fontSize: 32)),
               ],
             )
-            
           ],
-          
         ),
       ),
       floatingActionButton: FloatingActionButton(
@@ -139,3 +176,10 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
+
+  /*@override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    throw UnimplementedError();
+  }
+}*/

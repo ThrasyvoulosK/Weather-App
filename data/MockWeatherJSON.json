@@ -1,0 +1,82 @@
+{
+  "cities":[
+  {
+    "city": "Seattle",
+    "temperature": 15,
+    "condition": "Cloudy",
+    "icon": "cloud"
+  },
+  {
+    "city": "Los Angeles",
+    "temperature": 25,
+    "condition": "Sunny",
+    "icon": "sun"
+  },
+  {
+    "city": "New York",
+    "temperature": 20,
+    "condition": "Partly Cloudy",
+    "icon": "cloud_sun"
+  },
+  {
+    "city": "Chicago",
+    "temperature": 10,
+    "condition": "Rainy",
+    "icon": "rain"
+  },
+  {
+    "city": "London",
+    "temperature": 18,
+    "condition": "Partly Cloudy",
+    "icon": "cloud"
+  },
+  {
+    "city": "Tokyo",
+    "temperature": 24,
+    "condition": "Rain",
+    "icon": "rain"
+  },
+  {
+    "city": "Sydney",
+    "temperature": 26,
+    "condition": "Mostly Sunny",
+    "icon": "sun"
+  },
+  {
+    "city": "Paris",
+    "temperature": 20,
+    "condition": "Overcast",
+    "icon": "cloud"
+  },
+  {
+    "city": "Cairo",
+    "temperature": 30,
+    "condition": "Hot",
+    "icon": "sun"
+  },
+  {
+    "city": "Rio de Janeiro",
+    "temperature": 27,
+    "condition": "Humid",
+    "icon": "sun"
+  },
+  {
+    "city": "Moscow",
+    "temperature": 10,
+    "condition": "Foggy",
+    "icon": "fog"
+  },
+  {
+    "city": "Beijing",
+    "temperature": 28,
+    "condition": "Hazy",
+    "icon": "haze"
+  },
+  {
+    "city": "Nairobi",
+    "temperature": 23,
+    "condition": "Scattered Clouds",
+    "icon": "cloud"
+  }
+]
+}

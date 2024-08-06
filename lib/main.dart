@@ -184,8 +184,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   );
                 });
               }),
-              Text(currentCity, style: TextStyle(fontSize: 48)),
-              Text(currentCelsiusTemperature, style: TextStyle(fontSize: 64)),
+              Text(currentCity, style: TextStyle(fontSize: 48)),              
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -193,9 +192,10 @@ class _MyHomePageState extends State<MyHomePage> {
                     currentIcon,
                     size: 48,
                   ),
-                  Text(currentCondition, style: TextStyle(fontSize: 32)),
+                  Text(currentCondition, style: TextStyle(fontSize: 48)),
                 ],
-              )
+              ),
+              Text(currentCelsiusTemperature, style: TextStyle(fontSize: 48))
             ],
           ),
         ),

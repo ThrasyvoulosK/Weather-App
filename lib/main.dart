@@ -207,8 +207,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 tooltip: 'View Favourites',
                 child: Icon(Icons.favorite),
               ),
-              top: kToolbarHeight + 32.0,
-              right: 16.0,
+              bottom: 80.0,
+              right: 8.0,
             ),
             Positioned(
               child: FloatingActionButton(
@@ -216,8 +216,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 tooltip: 'Add To Favourites',
                 child: const Icon(Icons.add),
               ),
-              bottom: 32.0,
-              right: 16.0,
+              bottom: 16.0,
+              right: 8.0,
             ),
           ],
         ));

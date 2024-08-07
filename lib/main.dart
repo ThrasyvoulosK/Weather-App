@@ -50,11 +50,11 @@ class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
 
   String selectedItem = '';
-  
-   void clearText ()
-   {
-fieldText.clear();
-   }
+
+  void clearText() {
+    fieldText.clear();
+  }
+
   void _clearSearchField() {
     setState(() {
       selectedItem = ''; // Clear the search field
@@ -136,7 +136,7 @@ fieldText.clear();
         allStrings.add(city.city!);
       }
     }
-selectedItem=selectedItem+query;
+    selectedItem = selectedItem + query;
     //limit suggestions to a small number
     var limit = 5;
 
@@ -154,7 +154,6 @@ selectedItem=selectedItem+query;
   var cityNow;
 
   final fieldText = TextEditingController();
-
 
   @override
   Widget build(BuildContext context) {
@@ -200,23 +199,8 @@ selectedItem=selectedItem+query;
           centerTitle: true,
         ),
         body: Center(
-          // Center is a layout widget. It takes a single child and positions it
-          // in the middle of the parent.
 
           child: Column(
-            // Column is also a layout widget. It takes a list of children and
-            // arranges them vertically. By default, it sizes itself to fit its
-            // children horizontally, and tries to be as tall as its parent.
-            //
-            // Column has various properties to control how it sizes itself and
-            // how it positions its children. Here we use mainAxisAlignment to
-            // center the children vertically; the main axis here is the vertical
-            // axis because Columns are vertical (the cross axis would be
-            // horizontal).
-            //
-            // TRY THIS: Invoke "debug painting" (choose the "Toggle Debug Paint"
-            // action in the IDE, or press "p" in the console), to see the
-            // wireframe for each widget.
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
 
             children: <Widget>[
@@ -227,6 +211,7 @@ selectedItem=selectedItem+query;
                 //onTapOutside: ,
                 decoration: const InputDecoration(
                   hintText: 'Search City...',
+                  border: OutlineInputBorder(),
                 ),
               ),
               ListView.builder(
@@ -263,7 +248,6 @@ selectedItem=selectedItem+query;
                             FocusScope.of(context).unfocus();
 
                             break;
-                            
                           }
                         }
                       }
@@ -275,7 +259,15 @@ selectedItem=selectedItem+query;
                   );
                 },
               ),
-              Text(currentCity, style: TextStyle(fontSize: 48)),
+              Container(
+                margin: const EdgeInsets.all(100.0),
+                padding: const EdgeInsets.all(3.0),
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.black),
+                ),
+                child: 
+                Column(children: [
+                  Text(currentCity, style: TextStyle(fontSize: 48)),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -286,7 +278,12 @@ selectedItem=selectedItem+query;
                   Text(currentCondition, style: TextStyle(fontSize: 48)),
                 ],
               ),
+              SizedBox(height: 10),
               Text(currentCelsiusTemperature, style: TextStyle(fontSize: 48))
+
+                ],)
+              
+              )
             ],
           ),
         ),

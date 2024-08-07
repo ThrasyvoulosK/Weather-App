@@ -94,6 +94,55 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  final List<String> _results = [];
+
+  void _handleSearch(String input) {
+    _results.clear(); // Clear previous results
+    for (var item in _cityList) {
+      var cityString=item.city;
+      if (cityString!.contains(input)) {
+        _results.add(cityString);
+      }
+    }
+    // Optionally limit the results to a specific number (e.g., 5)
+    if (_results.length > 5) {
+      _results.removeRange(5, _results.length);
+    }
+    // Update the UI to reflect the filtered results
+    setState(() {});
+  }
+
+  final List<String> allStrings=[];
+
+  List<String> filteredStrings = [];
+
+  var errorString="No Results";
+
+  void _updateSuggestions(String query) {
+    
+    if(_cityList.length>allStrings.length)
+    {
+    for(var city in _cityList)
+      {allStrings.add(city.city!);}
+    }
+
+    //limit suggestions to a small number
+    var limit=5;
+
+    setState(() {
+      filteredStrings = allStrings
+          .where((string) => string.toLowerCase().contains(query.toLowerCase()))
+          .take(limit) // Limit suggestions
+          .toList();
+
+      //display error if search yields no results
+      if(filteredStrings.isEmpty)
+        filteredStrings.add(errorString);
+    });
+  }
+
+var cityNow;
+
   @override
   Widget build(BuildContext context) {
     var currentCity = "Athens";
@@ -102,13 +151,16 @@ class _MyHomePageState extends State<MyHomePage> {
     var currentIcon = Icons.sunny;
     var currentCondition = "Sunny";
 
-    for (var data in _cityList) {
+    /*for (var data in _cityList) {
       print(
           "CityName: ${data.city}, Condition: ${data.condition}, Icon: ${data.icon}, Temperature ${data.temperature}");
-    }
+    }*/
     //print(_cityList[0].city);
 
-    var chosenCity = _cityList[11];
+    var chosenCity = _cityList[0];
+    
+    if(cityNow!=null)
+     chosenCity = cityNow;
 
     currentCity = chosenCity.city!;
 
@@ -156,34 +208,53 @@ class _MyHomePageState extends State<MyHomePage> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
 
             children: <Widget>[
-              SearchAnchor(
-                  builder: (BuildContext context, SearchController controller) {
-                return SearchBar(
-                  controller: controller,
-                  padding: const MaterialStatePropertyAll<EdgeInsets>(
-                      EdgeInsets.symmetric(horizontal: 16.0)),
-                  onTap: () {
-                    controller.openView();
-                  },
-                  onChanged: (_) {
-                    controller.openView();
-                  },
-                  leading: const Icon(Icons.search),
-                );
-              }, suggestionsBuilder:
-                      (BuildContext context, SearchController controller) {
-                return List<ListTile>.generate(5, (int index) {
-                  final String item = 'item $index';
-                  return ListTile(
-                    title: Text(item),
+              TextField(
+                onChanged: _updateSuggestions,
+                decoration: InputDecoration(
+                  hintText: 'Search...',
+                ),
+              ),
+              ListView.builder(
+                shrinkWrap: true,
+                itemCount: filteredStrings.length,
+                itemBuilder: (context, index) {
+                  final suggestion = filteredStrings[index];
+
+                  return GestureDetector(
                     onTap: () {
-                      setState(() {
-                        controller.closeView(item);
-                      });
+                      // Handle the suggestion item click here
+                      print('User clicked on: $suggestion');
+                      // Add your custom logic (e.g., navigation, state update, etc.)
+                      if(suggestion!=errorString)
+                      {
+                        for(var city in _cityList)
+                        {
+                          if(suggestion==city.city)
+                          {                            
+                            setState(() {
+                              currentCity=city.city!;
+                            currentCondition=city.condition!;
+                            currentCelsiusTemperature = currentTemperature.toString() + " °C";
+                            ic = MdiIcons.fromString(city.icon!);
+                            currentIcon = ic!;
+
+                            cityNow=city;
+                            print(currentCity+currentCondition);
+                            });
+
+                            break;
+
+                          }
+                        }
+                      }
                     },
+                    child: ListTile(
+                      title: Text(suggestion),
+                    ),
                   );
-                });
-              }),
+                },
+              ),
+              
               Text(currentCity, style: TextStyle(fontSize: 48)),              
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,

@@ -48,6 +48,13 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
+  
+  String selectedItem='';
+  void _clearSearchField() {
+    setState(() {
+      selectedItem = ''; // Clear the search field
+    });
+  }
 
   void _addToFavourites() {
     setState(() {
@@ -158,7 +165,7 @@ var cityNow;
     //print(_cityList[0].city);
 
     var chosenCity = _cityList[0];
-    
+
     if(cityNow!=null)
      chosenCity = cityNow;
 
@@ -210,9 +217,12 @@ var cityNow;
             children: <Widget>[
               TextField(
                 onChanged: _updateSuggestions,
-                decoration: InputDecoration(
-                  hintText: 'Search...',
+                //clearQueryOnClose:true,
+                controller: TextEditingController(text: selectedItem),
+                decoration: const InputDecoration(
+                  hintText: 'Search City...',
                 ),
+                onTap: () => print("tapped"),
               ),
               ListView.builder(
                 shrinkWrap: true,
@@ -242,11 +252,19 @@ var cityNow;
                             print(currentCity+currentCondition);
                             });
 
+                            filteredStrings.clear();
+
+                            _clearSearchField();
+
+                            FocusScope.of(context).unfocus();
+
                             break;
+                            //Navigator.pop(context);
 
                           }
                         }
                       }
+                      //Navigator.pop(context);
                     },
                     child: ListTile(
                       title: Text(suggestion),

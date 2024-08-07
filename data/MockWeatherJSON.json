@@ -16,7 +16,7 @@
     "city": "New York",
     "temperature": 20,
     "condition": "Partly Cloudy",
-    "icon": "cloud_sun"
+    "icon": "weather-partly-cloudy"
   },
   {
     "city": "Chicago",

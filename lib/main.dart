@@ -48,8 +48,13 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
+
+  String selectedItem = '';
   
-  String selectedItem='';
+   void clearText ()
+   {
+fieldText.clear();
+   }
   void _clearSearchField() {
     setState(() {
       selectedItem = ''; // Clear the search field
@@ -106,7 +111,7 @@ class _MyHomePageState extends State<MyHomePage> {
   void _handleSearch(String input) {
     _results.clear(); // Clear previous results
     for (var item in _cityList) {
-      var cityString=item.city;
+      var cityString = item.city;
       if (cityString!.contains(input)) {
         _results.add(cityString);
       }
@@ -119,22 +124,21 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() {});
   }
 
-  final List<String> allStrings=[];
+  final List<String> allStrings = [];
 
   List<String> filteredStrings = [];
 
-  var errorString="No Results";
+  var errorString = "No Results";
 
   void _updateSuggestions(String query) {
-    
-    if(_cityList.length>allStrings.length)
-    {
-    for(var city in _cityList)
-      {allStrings.add(city.city!);}
+    if (_cityList.length > allStrings.length) {
+      for (var city in _cityList) {
+        allStrings.add(city.city!);
+      }
     }
-
+selectedItem=selectedItem+query;
     //limit suggestions to a small number
-    var limit=5;
+    var limit = 5;
 
     setState(() {
       filteredStrings = allStrings
@@ -143,12 +147,14 @@ class _MyHomePageState extends State<MyHomePage> {
           .toList();
 
       //display error if search yields no results
-      if(filteredStrings.isEmpty)
-        filteredStrings.add(errorString);
+      if (filteredStrings.isEmpty) filteredStrings.add(errorString);
     });
   }
 
-var cityNow;
+  var cityNow;
+
+  final fieldText = TextEditingController();
+
 
   @override
   Widget build(BuildContext context) {
@@ -166,8 +172,7 @@ var cityNow;
 
     var chosenCity = _cityList[0];
 
-    if(cityNow!=null)
-     chosenCity = cityNow;
+    if (cityNow != null) chosenCity = cityNow;
 
     currentCity = chosenCity.city!;
 
@@ -217,12 +222,12 @@ var cityNow;
             children: <Widget>[
               TextField(
                 onChanged: _updateSuggestions,
-                //clearQueryOnClose:true,
-                controller: TextEditingController(text: selectedItem),
+                //controller: TextEditingController(text: selectedItem),
+                controller: fieldText,
+                //onTapOutside: ,
                 decoration: const InputDecoration(
                   hintText: 'Search City...',
                 ),
-                onTap: () => print("tapped"),
               ),
               ListView.builder(
                 shrinkWrap: true,
@@ -235,32 +240,30 @@ var cityNow;
                       // Handle the suggestion item click here
                       print('User clicked on: $suggestion');
                       // Add your custom logic (e.g., navigation, state update, etc.)
-                      if(suggestion!=errorString)
-                      {
-                        for(var city in _cityList)
-                        {
-                          if(suggestion==city.city)
-                          {                            
+                      if (suggestion != errorString) {
+                        for (var city in _cityList) {
+                          if (suggestion == city.city) {
                             setState(() {
-                              currentCity=city.city!;
-                            currentCondition=city.condition!;
-                            currentCelsiusTemperature = currentTemperature.toString() + " °C";
-                            ic = MdiIcons.fromString(city.icon!);
-                            currentIcon = ic!;
+                              currentCity = city.city!;
+                              currentCondition = city.condition!;
+                              currentCelsiusTemperature =
+                                  currentTemperature.toString() + " °C";
+                              ic = MdiIcons.fromString(city.icon!);
+                              currentIcon = ic!;
 
-                            cityNow=city;
-                            print(currentCity+currentCondition);
+                              cityNow = city;
+                              print(currentCity + currentCondition);
                             });
 
                             filteredStrings.clear();
 
                             _clearSearchField();
+                            clearText();
 
                             FocusScope.of(context).unfocus();
 
                             break;
-                            //Navigator.pop(context);
-
+                            
                           }
                         }
                       }
@@ -272,8 +275,7 @@ var cityNow;
                   );
                 },
               ),
-              
-              Text(currentCity, style: TextStyle(fontSize: 48)),              
+              Text(currentCity, style: TextStyle(fontSize: 48)),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:core';
 import 'dart:convert';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 import 'cities.dart';
@@ -198,10 +199,12 @@ class _MyHomePageState extends State<MyHomePage> {
           title: Text(widget.title),
           centerTitle: true,
         ),
+        resizeToAvoidBottomInset: false,
         body: Center(
 
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            //alignment: Alignment.topCenter,
 
             children: <Widget>[
               TextField(
@@ -213,6 +216,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   hintText: '🔍 Search City...',
                   border: OutlineInputBorder(),
                 ),
+                
               ),
               ListView.builder(
                 shrinkWrap: true,
@@ -259,15 +263,19 @@ class _MyHomePageState extends State<MyHomePage> {
                   );
                 },
               ),
+              
               Container(
-                margin: const EdgeInsets.all(100.0),
+                margin: const EdgeInsets.all(15.0),
                 padding: const EdgeInsets.all(3.0),
                 decoration: BoxDecoration(
                   border: Border.all(color: Colors.black),
                 ),
+                alignment: Alignment.topCenter,
                 child: 
-                Column(children: [
-                  Text(currentCity, style: TextStyle(fontSize: 48)),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                  Text(currentCity, style: TextStyle(fontSize: 48),overflow: TextOverflow.ellipsis,),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -275,15 +283,17 @@ class _MyHomePageState extends State<MyHomePage> {
                     currentIcon,
                     size: 48,
                   ),
-                  Text(currentCondition, style: TextStyle(fontSize: 48)),
+                  Flexible(child:Text(currentCondition, style: TextStyle(fontSize: 36))),
                 ],
               ),
-              SizedBox(height: 10),
-              Text(currentCelsiusTemperature, style: TextStyle(fontSize: 48))
+              //SizedBox(height: 5),
+              Text(currentCelsiusTemperature, style: TextStyle(fontSize: 64,fontWeight: FontWeight.w500))
 
                 ],)
               
-              )
+              ),
+              SizedBox(height: 0),
+              
             ],
           ),
         ),
@@ -295,8 +305,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 tooltip: 'View Favourites',
                 child: Icon(Icons.favorite),
               ),
-              bottom: 80.0,
-              right: 8.0,
+              bottom: 68.0,
+              right: 4.0,
             ),
             Positioned(
               child: FloatingActionButton(
@@ -304,8 +314,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 tooltip: 'Add To Favourites',
                 child: const Icon(Icons.add),
               ),
-              bottom: 16.0,
-              right: 8.0,
+              bottom: 4.0,
+              right: 4.0,
             ),
           ],
         ));

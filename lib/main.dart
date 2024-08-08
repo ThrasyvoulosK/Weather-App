@@ -210,7 +210,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 controller: fieldText,
                 //onTapOutside: ,
                 decoration: const InputDecoration(
-                  hintText: 'Search City...',
+                  hintText: '🔍 Search City...',
                   border: OutlineInputBorder(),
                 ),
               ),

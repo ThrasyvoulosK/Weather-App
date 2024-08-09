@@ -47,6 +47,9 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
+
+var favourites=[];
+
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
 
@@ -62,7 +65,7 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  var favourites=[];
+  //var favourites=[];
   void _addToFavourites() {
     //get city
     var newFavourite=cityNow;
@@ -168,19 +171,14 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     var currentCity = "Athens";
     var currentTemperature = 36;
-    //var currentCelsiusTemperature=currentTemperature.toString()+" C";
     var currentIcon = Icons.sunny;
     var currentCondition = "Sunny";
 
-    /*for (var data in _cityList) {
-      print(
-          "CityName: ${data.city}, Condition: ${data.condition}, Icon: ${data.icon}, Temperature ${data.temperature}");
-    }*/
-    //print(_cityList[0].city);
-
     var chosenCity = _cityList[0];
 
-    if (cityNow != null) chosenCity = cityNow;
+    if (cityNow != null) {
+      chosenCity = cityNow;
+      }
 
     currentCity = chosenCity.city!;
 
@@ -190,20 +188,35 @@ class _MyHomePageState extends State<MyHomePage> {
     currentIcon = ic!;
     currentCondition = chosenCity.condition!;
 
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
+    /*for (var data in _cityList) {
+      print(
+          "CityName: ${data.city}, Condition: ${data.condition}, Icon: ${data.icon}, Temperature ${data.temperature}");
+    }*/
+    //print(_cityList[0].city);
+
+    void updateAllItems(cities city, IconData ic) {
+      setState(() {
+        
+     
+    currentCity = city.city!;
+    currentCondition = city.condition!;
+    currentCelsiusTemperature = currentTemperature.toString() + " °C";
+    ic = MdiIcons.fromString(city.icon!)!;
+    currentIcon = ic!;
+
+    cityNow = city;
+    print(currentCity + currentCondition); 
+    
+    });
+  }
+
+    
+
     return Scaffold(
         appBar: AppBar(
-          // TRY THIS: Try changing the color here to a specific color (to
-          // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
-          // change color while the other colors stay the same.
+          
           backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-          // Here we take the value from the MyHomePage object that was created by
-          // the App.build method, and use it to set our appbar title.
+          
           title: Text(widget.title),
           centerTitle: true,
         ),
@@ -240,8 +253,8 @@ class _MyHomePageState extends State<MyHomePage> {
                       if (suggestion != errorString) {
                         for (var city in _cityList) {
                           if (suggestion == city.city) {
-                            setState(() {
-                              currentCity = city.city!;
+                            //setState(() {
+                              /*currentCity = city.city!;
                               currentCondition = city.condition!;
                               currentCelsiusTemperature =
                                   currentTemperature.toString() + " °C";
@@ -249,8 +262,9 @@ class _MyHomePageState extends State<MyHomePage> {
                               currentIcon = ic!;
 
                               cityNow = city;
-                              print(currentCity + currentCondition);
-                            });
+                              print(currentCity + currentCondition);*/
+                              updateAllItems(city,ic);
+                            //});
 
                             filteredStrings.clear();
 
@@ -311,7 +325,7 @@ class _MyHomePageState extends State<MyHomePage> {
               bottom: 68.0,
               right: 4.0,
               child: FloatingActionButton(
-                onPressed: _viewFavourites,
+                onPressed:(){ Navigator.push(context,MaterialPageRoute(builder: (context)=>FavouritesPage(updateSelectedItem:updateAllItems)));},//_viewFavourites,
                 tooltip: 'View Favourites',
                 child: Icon(Icons.favorite),
               ),
@@ -331,7 +345,42 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _viewFavourites() {
   }
+  
+  
 }
+
+class FavouritesPage extends StatelessWidget {
+  final void Function(cities,IconData) updateSelectedItem;
+
+  const FavouritesPage({Key? key, required this.updateSelectedItem}) : super(key: key);
+  //const FavouritesPage({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Favourites Page')),
+      body: ListView.builder(
+        itemCount: favourites.length, // Replace with your actual item count
+        itemBuilder: (context, index) {
+          final item=favourites[index].city;
+          return ListTile(
+            title: Text(item),
+            // Customize your list item here
+            onTap: () {
+              //setState(){
+              print(item);
+              var ic= MdiIcons.fromString(favourites[index].icon!)!;
+              updateSelectedItem(favourites[index],ic);
+              //}
+              Navigator.pop(context);
+            },
+          );
+        },
+      ),
+    );
+  }
+}
+
 
   /*@override
   Widget build(BuildContext context) {

@@ -360,7 +360,7 @@ class FavouritesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Favourites Page')),
+      appBar: AppBar(title: const Text('❤️ Favourites Page')),
       body: ListView.builder(
         itemCount: favourites.length, // Replace with your actual item count
         itemBuilder: (context, index) {

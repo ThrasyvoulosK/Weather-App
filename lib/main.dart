@@ -325,6 +325,7 @@ class _MyHomePageState extends State<MyHomePage> {
               bottom: 68.0,
               right: 4.0,
               child: FloatingActionButton(
+                heroTag: 'favView',
                 onPressed:(){ Navigator.push(context,MaterialPageRoute(builder: (context)=>FavouritesPage(updateSelectedItem:updateAllItems)));},//_viewFavourites,
                 tooltip: 'View Favourites',
                 child: Icon(Icons.favorite),
@@ -334,6 +335,7 @@ class _MyHomePageState extends State<MyHomePage> {
               bottom: 4.0,
               right: 4.0,
               child: FloatingActionButton(
+                heroTag: 'favAdd',
                 onPressed: _addToFavourites,
                 tooltip: 'Add To Favourites',
                 child: const Icon(Icons.add),

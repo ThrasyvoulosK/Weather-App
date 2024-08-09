@@ -62,14 +62,22 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  var favourites=[];
   void _addToFavourites() {
+    //get city
+    var newFavourite=cityNow;
+    print(newFavourite.city);
+
+    for(var v in favourites)
+    {
+      if(v==newFavourite)
+      {return;}
+      print(v.city);
+    }    
+
     setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
+      favourites.add(newFavourite);
+      print(favourites);
     });
   }
 
@@ -300,25 +308,28 @@ class _MyHomePageState extends State<MyHomePage> {
         floatingActionButton: Stack(
           children: [
             Positioned(
+              bottom: 68.0,
+              right: 4.0,
               child: FloatingActionButton(
-                onPressed: null,
+                onPressed: _viewFavourites,
                 tooltip: 'View Favourites',
                 child: Icon(Icons.favorite),
               ),
-              bottom: 68.0,
-              right: 4.0,
             ),
             Positioned(
+              bottom: 4.0,
+              right: 4.0,
               child: FloatingActionButton(
                 onPressed: _addToFavourites,
                 tooltip: 'Add To Favourites',
                 child: const Icon(Icons.add),
               ),
-              bottom: 4.0,
-              right: 4.0,
             ),
           ],
         ));
+  }
+
+  void _viewFavourites() {
   }
 }
 

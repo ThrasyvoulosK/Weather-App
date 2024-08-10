@@ -31,23 +31,14 @@ class MyWeatherApp extends StatelessWidget {
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
 
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
   final String title;
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
-
-var favourites=[];
+// keep favourites in a list
+var favourites = [];
 
 class _MyHomePageState extends State<MyHomePage> {
   //int _counter = 0;
@@ -64,18 +55,18 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  //var favourites=[];
+  //add a new favourite city
   void _addToFavourites() {
     //get city
-    var newFavourite=cityNow;
+    var newFavourite = cityNow;
     //print(newFavourite.city);
 
-    for(var v in favourites)
-    {
-      if(v==newFavourite)
-      {return;}
+    for (var v in favourites) {
+      if (v == newFavourite) {
+        return;
+      }
       //print(v.city);
-    }    
+    }
 
     setState(() {
       favourites.add(newFavourite);
@@ -86,6 +77,7 @@ class _MyHomePageState extends State<MyHomePage> {
   //keep data from JSON file stored locally into a list of classes
   List<cities> _cityList = [];
 
+  //import data from JSON and map it to the list
   Future<List<cities>> readJson() async {
     final String response =
         await rootBundle.loadString('data/MockWeatherJSON.json');
@@ -130,6 +122,7 @@ class _MyHomePageState extends State<MyHomePage> {
       }
     }
     selectedItem = selectedItem + query;
+
     //limit suggestions to a small number
     var limit = 5;
 
@@ -156,11 +149,15 @@ class _MyHomePageState extends State<MyHomePage> {
     var currentCondition = "Sunny";
 
     //initialise default city with values
-    var chosenCity = cities(city: currentCity,condition: currentCondition,icon: "white-balance-sunny",temperature: currentTemperature);
+    var chosenCity = cities(
+        city: currentCity,
+        condition: currentCondition,
+        icon: "white-balance-sunny",
+        temperature: currentTemperature);
 
     if (cityNow != null) {
       chosenCity = cityNow;
-      }
+    }
 
     currentCity = chosenCity.city!;
 
@@ -178,33 +175,25 @@ class _MyHomePageState extends State<MyHomePage> {
 
     void updateAllItems(cities city, IconData ic) {
       setState(() {
-        
-     
-    currentCity = city.city!;
-    currentCondition = city.condition!;
-    currentCelsiusTemperature = currentTemperature.toString() + " °C";
-    ic = MdiIcons.fromString(city.icon!)!;
-    currentIcon = ic!;
+        currentCity = city.city!;
+        currentCondition = city.condition!;
+        currentCelsiusTemperature = currentTemperature.toString() + " °C";
+        ic = MdiIcons.fromString(city.icon!)!;
+        currentIcon = ic!;
 
-    cityNow = city;
-    print(currentCity + currentCondition); 
-    
-    });
-  }
-
-    
+        cityNow = city;
+        //print(currentCity + currentCondition);
+      });
+    }
 
     return Scaffold(
         appBar: AppBar(
-          
           backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-          
           title: Text(widget.title),
           centerTitle: true,
         ),
         resizeToAvoidBottomInset: false,
         body: Center(
-
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             //alignment: Alignment.topCenter,
@@ -219,7 +208,6 @@ class _MyHomePageState extends State<MyHomePage> {
                   hintText: '🔍 Search City...',
                   border: OutlineInputBorder(),
                 ),
-                
               ),
               ListView.builder(
                 shrinkWrap: true,
@@ -229,14 +217,13 @@ class _MyHomePageState extends State<MyHomePage> {
 
                   return GestureDetector(
                     onTap: () {
-                      // Handle the suggestion item click here
-                      print('User clicked on: $suggestion');
-                      // Add your custom logic (e.g., navigation, state update, etc.)
+                      //print('User clicked on: $suggestion');
+
+                      // update screen with choice and close search bar
                       if (suggestion != errorString) {
                         for (var city in _cityList) {
                           if (suggestion == city.city) {
-                            
-                              updateAllItems(city,ic);
+                            updateAllItems(city, ic);
 
                             filteredStrings.clear();
 
@@ -256,52 +243,66 @@ class _MyHomePageState extends State<MyHomePage> {
                   );
                 },
               ),
-              
               Container(
-                margin: const EdgeInsets.all(15.0),
-                padding: const EdgeInsets.all(3.0),
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.black),
-                ),
-                alignment: Alignment.topCenter,
-                child: 
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                  Text(currentCity, style: TextStyle(fontSize: 48),overflow: TextOverflow.ellipsis,),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Icon(
-                    currentIcon,
-                    size: 48,
+                  margin: const EdgeInsets.all(15.0),
+                  padding: const EdgeInsets.all(3.0),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.black),
                   ),
-                  Flexible(child:Text(currentCondition, style: TextStyle(fontSize: 36))),
-                ],
-              ),
-              //SizedBox(height: 5),
-              Text(currentCelsiusTemperature, style: TextStyle(fontSize: 64,fontWeight: FontWeight.w500))
-
-                ],)
-              
-              ),
+                  alignment: Alignment.topCenter,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        currentCity,
+                        style: TextStyle(fontSize: 48),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Icon(
+                            currentIcon,
+                            size: 48,
+                          ),
+                          Flexible(
+                              child: Text(currentCondition,
+                                  style: TextStyle(fontSize: 36))),
+                        ],
+                      ),
+                      //SizedBox(height: 5),
+                      Text(currentCelsiusTemperature,
+                          style: TextStyle(
+                              fontSize: 64, fontWeight: FontWeight.w500))
+                    ],
+                  )),
               SizedBox(height: 0),
-              
             ],
           ),
         ),
         floatingActionButton: Stack(
           children: [
+            //view Favourites Button
             Positioned(
               bottom: 68.0,
               right: 4.0,
               child: FloatingActionButton(
                 heroTag: 'favView',
-                onPressed:(){ Navigator.push(context,MaterialPageRoute(builder: (context)=>FavouritesPage(updateSelectedItem:updateAllItems)));},//_viewFavourites,
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => FavouritesPage(
+                              updateSelectedItem: updateAllItems)));
+                },
                 tooltip: 'View Favourites',
-                child: Icon(Icons.favorite,color: Colors.red,),
+                child: Icon(
+                  Icons.favorite,
+                  color: Colors.red,
+                ),
               ),
             ),
+            //add to Favourites Button
             Positioned(
               bottom: 4.0,
               right: 4.0,
@@ -309,7 +310,10 @@ class _MyHomePageState extends State<MyHomePage> {
                 heroTag: 'favAdd',
                 onPressed: _addToFavourites,
                 tooltip: 'Add To Favourites',
-                child: const Icon(Icons.add,color: Colors.green,),
+                child: const Icon(
+                  Icons.add,
+                  color: Colors.green,
+                ),
               ),
             ),
           ],
@@ -318,26 +322,29 @@ class _MyHomePageState extends State<MyHomePage> {
 }
 
 class FavouritesPage extends StatelessWidget {
-  final void Function(cities,IconData) updateSelectedItem;
+  final void Function(cities, IconData) updateSelectedItem;
 
-  const FavouritesPage({Key? key, required this.updateSelectedItem}) : super(key: key);
+  const FavouritesPage({Key? key, required this.updateSelectedItem})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('❤️ Favourites'),centerTitle: true,
-      backgroundColor: Theme.of(context).colorScheme.inversePrimary),
+      appBar: AppBar(
+          title: const Text('❤️ Favourites'),
+          centerTitle: true,
+          backgroundColor: Theme.of(context).colorScheme.inversePrimary),
       body: ListView.builder(
         itemCount: favourites.length, // Replace with your actual item count
         itemBuilder: (context, index) {
-          final item=favourites[index].city;
+          final item = favourites[index].city;
           return ListTile(
             title: Text(item),
             // Customize your list item here
             onTap: () {
-              print(item);
-              var ic= MdiIcons.fromString(favourites[index].icon!)!;
-              updateSelectedItem(favourites[index],ic);
+              //print(item);
+              var ic = MdiIcons.fromString(favourites[index].icon!)!;
+              updateSelectedItem(favourites[index], ic);
               Navigator.pop(context);
             },
           );

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'dart:core';
 import 'dart:convert';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 import 'cities.dart';
@@ -51,7 +50,7 @@ class MyHomePage extends StatefulWidget {
 var favourites=[];
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+  //int _counter = 0;
 
   String selectedItem = '';
 
@@ -69,18 +68,18 @@ class _MyHomePageState extends State<MyHomePage> {
   void _addToFavourites() {
     //get city
     var newFavourite=cityNow;
-    print(newFavourite.city);
+    //print(newFavourite.city);
 
     for(var v in favourites)
     {
       if(v==newFavourite)
       {return;}
-      print(v.city);
+      //print(v.city);
     }    
 
     setState(() {
       favourites.add(newFavourite);
-      print(favourites);
+      //print(favourites);
     });
   }
 
@@ -116,24 +115,6 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() {
       _cityList = dataList;
     });
-  }
-
-  final List<String> _results = [];
-
-  void _handleSearch(String input) {
-    _results.clear(); // Clear previous results
-    for (var item in _cityList) {
-      var cityString = item.city;
-      if (cityString!.contains(input)) {
-        _results.add(cityString);
-      }
-    }
-    // Optionally limit the results to a specific number (e.g., 5)
-    if (_results.length > 5) {
-      _results.removeRange(5, _results.length);
-    }
-    // Update the UI to reflect the filtered results
-    setState(() {});
   }
 
   final List<String> allStrings = [];
@@ -174,7 +155,8 @@ class _MyHomePageState extends State<MyHomePage> {
     var currentIcon = Icons.sunny;
     var currentCondition = "Sunny";
 
-    var chosenCity = _cityList[0];
+    //initialise default city with values
+    var chosenCity = cities(city: currentCity,condition: currentCondition,icon: "white-balance-sunny",temperature: currentTemperature);
 
     if (cityNow != null) {
       chosenCity = cityNow;
@@ -253,18 +235,8 @@ class _MyHomePageState extends State<MyHomePage> {
                       if (suggestion != errorString) {
                         for (var city in _cityList) {
                           if (suggestion == city.city) {
-                            //setState(() {
-                              /*currentCity = city.city!;
-                              currentCondition = city.condition!;
-                              currentCelsiusTemperature =
-                                  currentTemperature.toString() + " °C";
-                              ic = MdiIcons.fromString(city.icon!);
-                              currentIcon = ic!;
-
-                              cityNow = city;
-                              print(currentCity + currentCondition);*/
+                            
                               updateAllItems(city,ic);
-                            //});
 
                             filteredStrings.clear();
 
@@ -277,7 +249,6 @@ class _MyHomePageState extends State<MyHomePage> {
                           }
                         }
                       }
-                      //Navigator.pop(context);
                     },
                     child: ListTile(
                       title: Text(suggestion),
@@ -328,7 +299,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 heroTag: 'favView',
                 onPressed:(){ Navigator.push(context,MaterialPageRoute(builder: (context)=>FavouritesPage(updateSelectedItem:updateAllItems)));},//_viewFavourites,
                 tooltip: 'View Favourites',
-                child: Icon(Icons.favorite),
+                child: Icon(Icons.favorite,color: Colors.red,),
               ),
             ),
             Positioned(
@@ -338,29 +309,23 @@ class _MyHomePageState extends State<MyHomePage> {
                 heroTag: 'favAdd',
                 onPressed: _addToFavourites,
                 tooltip: 'Add To Favourites',
-                child: const Icon(Icons.add),
+                child: const Icon(Icons.add,color: Colors.green,),
               ),
             ),
           ],
         ));
   }
-
-  void _viewFavourites() {
-  }
-  
-  
 }
 
 class FavouritesPage extends StatelessWidget {
   final void Function(cities,IconData) updateSelectedItem;
 
   const FavouritesPage({Key? key, required this.updateSelectedItem}) : super(key: key);
-  //const FavouritesPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('❤️ Favourites Page')),
+      appBar: AppBar(title: const Text('❤️ Favourites'),centerTitle: true,),
       body: ListView.builder(
         itemCount: favourites.length, // Replace with your actual item count
         itemBuilder: (context, index) {
@@ -369,11 +334,9 @@ class FavouritesPage extends StatelessWidget {
             title: Text(item),
             // Customize your list item here
             onTap: () {
-              //setState(){
               print(item);
               var ic= MdiIcons.fromString(favourites[index].icon!)!;
               updateSelectedItem(favourites[index],ic);
-              //}
               Navigator.pop(context);
             },
           );
@@ -382,11 +345,3 @@ class FavouritesPage extends StatelessWidget {
     );
   }
 }
-
-
-  /*@override
-  Widget build(BuildContext context) {
-    // TODO: implement build
-    throw UnimplementedError();
-  }
-}*/

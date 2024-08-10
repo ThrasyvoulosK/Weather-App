@@ -1,7 +1,5 @@
 //made with https://javiercbk.github.io/json_to_dart/
 
-import 'package:flutter/material.dart';
-
 class cities {
   String? city;
   int? temperature;

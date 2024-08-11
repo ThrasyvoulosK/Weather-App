@@ -77,6 +77,12 @@
     "temperature": 23,
     "condition": "Scattered Clouds",
     "icon": "cloud"
+  },
+  {
+    "city": "Athens",
+    "temperature": 36,
+    "condition": "Hot",
+    "icon": "white-balance-sunny"
   }
 ]
 }

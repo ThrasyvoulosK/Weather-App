@@ -146,7 +146,7 @@ class _MyHomePageState extends State<MyHomePage> {
     var currentCity = "Athens";
     var currentTemperature = 36;
     var currentIcon = Icons.sunny;
-    var currentCondition = "Sunny";
+    var currentCondition = "Hot";
 
     //initialise default city with values
     var chosenCity = cities(
@@ -157,6 +157,10 @@ class _MyHomePageState extends State<MyHomePage> {
 
     if (cityNow != null) {
       chosenCity = cityNow;
+    }
+    else
+    {
+      cityNow=chosenCity;
     }
 
     currentCity = chosenCity.city!;

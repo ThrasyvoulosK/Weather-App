@@ -78,10 +78,5 @@ void main() {
     //seattle should be on the list
     expect(find.text("Seattle"), findsOne);    
   });
-  testWidgets('Test Favourites', (WidgetTester tester) async 
-  {
-    //await tester.pumpWidget(const FavouritesPage(updateSelectedItem: _MyHomePageState.updateAllItems,));
-    expect(0, 0);
-  });
 
 }
